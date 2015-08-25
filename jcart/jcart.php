@@ -1,11 +1,6 @@
 <?php
 
-// jCart v1.3
-// http://conceptlogic.com/jcart/
-
-//error_reporting(E_ALL);
-
-// Cart logic based on Webforce Cart: http://www.webforcecart.com/
+// monpanier V1
 class Jcart {
 
 	public $config     = array();
@@ -581,7 +576,7 @@ class Jcart {
 	}
 }
 
-// Start a new session in case it hasn't already been started on the including page
+// Démarrage de session pour l'Ajax, on met l'@ pour éviter l'affichage d'erreur lors d'un appel directe dans une page possédant une session ouverte (include_once)
 @session_start();
 
 // Initialize jcart after session start

@@ -1,6 +1,9 @@
 <?php
-include_once('jcart/jcart.php');
+// session multi-usage (panier + autres utilisations) ! le session_start existe aussi dans jcart/jcart.php (pour l'ajax)
 session_start();
+
+include_once('jcart/jcart.php');
+ 
 ?>
 <!DOCTYPE html>
 <html>
