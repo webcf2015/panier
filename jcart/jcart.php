@@ -2,6 +2,9 @@
 
 // monpanier V1
 
+@session_start();
+
+
 class Jcart {
 
 	public $config     = array();
@@ -188,13 +191,13 @@ class Jcart {
 	public function update_cart() {
 
 		// Post value is an array of all item quantities in the cart
-		// Treat array as a string for validation
-		if (is_array($_POST['jcartItemQty'])) {
+		
+		if (isset($_POST['jcartItemQty'])&&is_array($_POST['jcartItemQty'])) {
 			$qtys = implode($_POST['jcartItemQty']);
 		}
 
 		// If no item ids, the cart is empty
-		if ($_POST['jcartItemId']) {
+		if (isset($_POST['jcartItemId'])&&$_POST['jcartItemId']) {
 
 			$validQtys = false;
 
@@ -231,7 +234,7 @@ class Jcart {
 			}
 		}
 		// If no items in the cart, return true to prevent unnecssary error message
-		elseif (!$_POST['jcartItemId']) {
+		elseif (isset($_POST['jcartItemId'])&&!$_POST['jcartItemId']) {
 			return true;
 		}
 	}
@@ -284,8 +287,8 @@ class Jcart {
 		// Optional CSRF protection, see: http://conceptlogic.com/jcart/security.php
 		$jcartToken = (isset($_POST['jcartToken']))?$_POST['jcartToken']:false;
 
-		// Only generate unique token once per session
-		if(!$_SESSION['jcartToken']){
+		// si la variable de session n'existe pas ou qu'elle est vide
+		if(!isset($_SESSION['jcartToken'])||!$_SESSION['jcartToken']){
 			$_SESSION['jcartToken'] = md5(session_id() . time() . $_SERVER['HTTP_USER_AGENT']);
 		}
 		// If enabled, check submitted token against session token for POST requests
@@ -303,8 +306,8 @@ class Jcart {
 			$qty = round($qty, $config['decimalPlaces']);
 		}
 
-		// Add an item
-		if ($_POST[$add]) {
+		// si on a cliqué sur envoyé
+		if (isset($_POST[$add])&& $_POST[$add]) {
 			$itemAdded = $this->add_item($id, $name, $price, $qty, $url);
 			// If not true the add item function returns the error type
 			if ($itemAdded !== true) {
@@ -342,12 +345,12 @@ class Jcart {
 		subsequent POST requests.  As result, it's not enough to check for
 		GET before deleting the item, must also check that this isn't a POST
 		request. */
-		if($_GET['jcartRemove'] && !$_POST) {
+		if(isset($_GET['jcartRemove'])&& $_GET['jcartRemove'] && !$_POST) {
 			$this->remove_item($_GET['jcartRemove']);
 		}
 
 		// Empty the cart
-		if($_POST['jcartEmpty']) {
+		if(isset($_POST['jcartEmpty'])&&$_POST['jcartEmpty']) {
 			$this->empty_cart();
 		}
 
@@ -363,7 +366,7 @@ class Jcart {
 		sent with Ajax request (set when visitor has javascript enabled and
 		updates an item quantity). */
 		$isCheckout = strpos(request_uri(), $checkout);
-		if ($isCheckout !== false || $_REQUEST['jcartIsCheckout'] == 'true') {
+		if ($isCheckout !== false || isset($_REQUEST['jcartIsCheckout'])&& $_REQUEST['jcartIsCheckout'] == 'true') {
 			$isCheckout = true;
 		}
 		else {
@@ -389,7 +392,7 @@ class Jcart {
 		// If this error is true the visitor updated the cart from the checkout page using an invalid price format
 		// Passed as a session var since the checkout page uses a header redirect
 		// If passed via GET the query string stays set even after subsequent POST requests
-		if ($_SESSION['quantityError'] === true) {
+		if (isset($_SESSION['quantityError'])&& $_SESSION['quantityError'] === true) {
 			$errorMessage = $config['text']['quantityError'];
 			unset($_SESSION['quantityError']);
 		}
@@ -565,11 +568,15 @@ class Jcart {
 			if ($config['button']['checkout'])	{
 				$inputType = "image";
 				$src = " src='{$config['button']['checkout']}' alt='{$config['text']['checkoutPaypal']}' title='' ";
-			}
+			}else{
+                            $src ="";
+                        }
 
 			if($this->itemCount <= 0) {
 				$disablePaypalCheckout = " disabled='disabled'";
-			}
+			}else{
+                            $disablePaypalCheckout="";
+                        }
 
 			echo tab(3) . "<input type='$inputType' $src id='jcart-paypal-checkout' name='jcartPaypalCheckout' value='{$config['text']['checkoutPaypal']}' $disablePaypalCheckout />\n";
 		}
@@ -581,8 +588,9 @@ class Jcart {
 	}
 }
 
-// Démarrage de session pour l'Ajax, on met l'@ pour éviter l'affichage d'erreur lors d'un appel directe dans une page possédant une session ouverte (include_once)
-@session_start();
+
+
+    
 
 // Correction existance session par une condition ternaire
 // (booléen) ? si vrai : si faux
