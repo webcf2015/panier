@@ -31,28 +31,28 @@ $_SESSION['lulu']= 5;
 				<form method="post" action="" class="jcart">
 					<fieldset>
 						<input type="hidden" name="jcartToken" value="<?php echo $_SESSION['jcartToken'];?>" />
-						<input type="hidden" name="my-item-id" value="ABC-123" />
-						<input type="hidden" name="my-item-name" value="Soccer Ball" />
+						<input type="hidden" name="idproduit" value="ABC-123" />
+						<input type="hidden" name="nomproduit" value="Ballon de football" />
 						<input type="hidden" name="my-item-price" value="25.00" />
 						<input type="hidden" name="my-item-url" value="" />
 
 						<ul>
-							<li><strong>Soccer Ball</strong></li>
+							<li><strong>Ballon de football</strong></li>
 							<li>Price: $25.00</li>
 							<li>
 								<label>Qty: <input type="text" name="my-item-qty" value="1" size="3" /></label>
 							</li>
 						</ul>
 
-						<input type="submit" name="my-add-button" value="add to cart" class="button" />
+						<input type="submit" name="my-add-button" value="Ajouter au panier" class="button" />
 					</fieldset>
 				</form>
 
 				<form method="post" action="" class="jcart">
 					<fieldset>
 						<input type="hidden" name="jcartToken" value="<?php echo $_SESSION['jcartToken'];?>" />
-						<input type="hidden" name="my-item-id" value="2" />
-						<input type="hidden" name="my-item-name" value="Baseball Mitt" />
+						<input type="hidden" name="idproduit" value="2" />
+						<input type="hidden" name="nomproduit" value="Baseball Mitt" />
 						<input type="hidden" name="my-item-price" value="19.50" />
 						<input type="hidden" name="my-item-url" value="http://yahoo.com" />
 
@@ -71,8 +71,8 @@ $_SESSION['lulu']= 5;
 				<form method="post" action="" class="jcart">
 					<fieldset>
 						<input type="hidden" name="jcartToken" value="<?php echo $_SESSION['jcartToken'];?>" />
-						<input type="hidden" name="my-item-id" value="3" />
-						<input type="hidden" name="my-item-name" value="Hockey Stick" />
+						<input type="hidden" name="idproduit" value="3" />
+						<input type="hidden" name="nomproduit" value="Hockey Stick" />
 						<input type="hidden" name="my-item-price" value="33.25" />
 						<input type="hidden" name="my-item-url" value="http://bing.com" />
 
