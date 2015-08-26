@@ -1,15 +1,14 @@
 <?php
 
-// jCart v1.3
-// http://conceptlogic.com/jcart/
 
-// By default, this file returns the $config array for use with PHP scripts
-// If requested via Ajax, the array is encoded as JSON and echoed out to the browser
+// monpanier V1
+// valeurs par défaut si non remplies
 
-// Don't edit here, edit config.php
+
 include_once('config.php');
 
-// Use default values for any settings that have been left empty
+// Si une des variable est vide dans config.php on applique les valeurs ci-dessous.
+
 if (!$config['currencyCode']) $config['currencyCode']                     = 'USD';
 if (!$config['text']['cartTitle']) $config['text']['cartTitle']           = 'Shopping Cart';
 if (!$config['text']['singleItem']) $config['text']['singleItem']         = 'Item';
@@ -26,7 +25,8 @@ if (!$config['text']['priceError']) $config['text']['priceError']         = 'Inv
 if (!$config['text']['quantityError']) $config['text']['quantityError']   = 'Item quantities must be whole numbers!';
 if (!$config['text']['checkoutError']) $config['text']['checkoutError']   = 'Your order could not be processed!';
 
-if ($_GET['ajax'] == 'true') {
+// correction pour éviter la bête erreur lors d'un appel hors ajax (isset)
+if (isset($_GET['ajax']) && $_GET['ajax'] == 'true') {
 	header('Content-type: application/json; charset=utf-8');
 	echo json_encode($config);
 }

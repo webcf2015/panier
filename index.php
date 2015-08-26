@@ -1,6 +1,12 @@
 <?php
+
+// doit être inclu AVANT notre session_start
 include_once('jcart/jcart.php');
-session_start();
+
+// session multi-usage (panier + autres utilisations) ! le session_start existe aussi dans jcart/jcart.php (pour l'ajax)
+@session_start();
+$_SESSION['lulu']= 5;
+
 ?>
 <!DOCTYPE html>
 <html>
